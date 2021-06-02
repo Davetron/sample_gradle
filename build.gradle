@@ -1,0 +1,43 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'co.databeast'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact("build/libs/sample_gradle-$version" + ".jar") {
+                extension 'jar'
+            }
+        }
+    }
+    repositories {
+        maven {
+            name 'nexus'
+            url "http://localhost:8081/repository/maven-releases/"
+            /*credentials {
+                username project.repoUser
+                password project.repoPassword
+            }}*/
+        }
+    }
+}
